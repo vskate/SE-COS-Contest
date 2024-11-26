@@ -15,4 +15,21 @@ Your program shouldwrite the minimum number of hours needed to implementinstalli
 """
 
 def time_to_install(n, k):
+    installed = 1
+    time = 0
+
+    while installed < n:
+        time += 1
+
+        if installed < k:
+            installed *= 2
+        else:
+            installed += k
     
+    return time
+
+print(time_to_install(8, 3))
+print(time_to_install(6, 6))
+print(time_to_install(7, 1))
+print(time_to_install(1, 1))
+print(time_to_install(6, 2))
