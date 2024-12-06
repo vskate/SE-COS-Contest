@@ -1,44 +1,33 @@
-"""
-5. Palindromic substrings
-You are given a string s. Your task is to find all distinct palindromic substrings that have a length
-of 2 or more. A palindromic substring is a sequence of characters in the string that reads the
-same forwards and backwards, such as "aba" or "madam".
-Once you’ve found all the palindromic substrings, you should sort them in alphabetical order
-(lexicographical order) and print them, each on a new line. If no palindromic substrings of length
-2 or more exist, simply print "No Palindromes".
-Input
-The input should contain a string, which consists of palindromes (or not).
-Output
-Your program should write all the palindromes that are within the string input and sort them in
-alphabetical order.
-"""
+# There is an O(n) solution I believe but that is a little out of scope for this course
+# Instead we can use a o(n^2), that runs on a simple basis it tries to take every single character as the middle of the palindrome, also every single pair of characters
+# Final runtime is worst case 2*(n-1) * n
+# Since we have to find all DISTINCT palindromes, we use a set to store them
+import sys
 
-def findPalindromicSubstrings(s):
-    substrings = {
-    s[start:start + length]
-    for length in range(1, len(s) + 1)
-    for start in range(len(s) - length + 1)
-    }
+def main():
+    s = sys.stdin.readline().strip()
+    palindromes = set()
+    for i in range(0,len(s)):
+        #Odd length palindromes
+        l = i
+        r = i
+        while l >= 0 and r < len(s) and s[l] == s[r]:
+            if l != r:
+                palindromes.add(s[l:r+1])
+            l-=1
+            r+=1
+        l = i
+        r = i+1
+        while l >= 0 and r < len(s) and s[l] == s[r]:
+            palindromes.add(s[l:r+1])
+            l-=1
+            r+=1
+    palindromes_list = sorted(list(palindromes))
+    if len(palindromes_list) == 0:
+        sys.stdout.write("No palindromes\n")
+        return
+    for palindrome in palindromes_list:
+        sys.stdout.write(f"{palindrome}\n")
 
-    final = []
-
-    for i in substrings:
-        if i == i[::-1] and len(i) >= 2:
-            final.append(i)
-
-    final.sort()
-
-    return final
-
-def printout(ls):
-    if len(ls) == 0:
-        print("No palindromes")
-    else:
-        for i in ls:
-            print(i)
-
-printout(findPalindromicSubstrings('hahaha'))
-printout(findPalindromicSubstrings('alphabetical'))
-printout(findPalindromicSubstrings('commodore64'))
-printout(findPalindromicSubstrings('uwu'))
-printout(findPalindromicSubstrings('sys'))
+if __name__ == "__main__":
+    main()

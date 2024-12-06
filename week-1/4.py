@@ -1,35 +1,18 @@
-"""
-Student helpers updates Linux on students computers. Initially, only one computer has installedthe latest version of Linux. 
-Unfortunately, the eduroamhas broken down, so student helpers can now upload new versions of Linux to other computers only 
-via cables. Student helpers can connect two computers with one cable at a time, and at most one cable can be connected to 
-the computer at a time. Copying files of operating system between computers takes exactly one hour.Count how many hours it 
-will take for student helpers to install the latest version of Linux on all students’computers, if there are n of them and 
-student helpers brought k cables with them.
+#There is a simple brute force solution -> to speed it up we can notice
+# that once we have more or equal computers with linux to k we know exactly how long the rest will take
 
-Input
-The line containstwo integers n, k (1 ≤ k ≤ n ≤ 1018) -the number of computers 
-and cables.
+import sys
 
-Output
-Your program shouldwrite the minimum number of hours needed to implementinstalling Linux on all computers
-"""
+def main():
+    n, k = map(int, sys.stdin.readline().split())
+    l = 1
+    res = 0
+    while l < k:
+        l *= 2
+        res += 1
+    n-= l
+    res += n//k + (n%k != 0)
+    sys.stdout.write(f"{res}\n")
 
-def time_to_install(n, k):
-    installed = 1
-    time = 0
-
-    while installed < n:
-        time += 1
-
-        if installed < k:
-            installed *= 2
-        else:
-            installed += k
-    
-    return time
-
-print(time_to_install(8, 3))
-print(time_to_install(6, 6))
-print(time_to_install(7, 1))
-print(time_to_install(1, 1))
-print(time_to_install(6, 2))
+if __name__ == "__main__":
+    main()
